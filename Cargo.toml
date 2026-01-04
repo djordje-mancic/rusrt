@@ -1,0 +1,5 @@
+[package]
+name = "rusrt"
+description = "SRT (Secure Reliable Transport) protocol implementation"
+version = "0.1.0"
+edition = "2024"
