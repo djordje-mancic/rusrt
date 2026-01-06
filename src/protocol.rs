@@ -1,16 +1,16 @@
 use std::{io::{self, Error, ErrorKind}, time::Instant};
 
-pub enum SrtPacket {
+pub(crate) enum SrtPacket {
     Handshake(HandshakePacket),
     KeepAlive
 }
 
-pub enum PacketType {
+pub(crate) enum PacketType {
     Data,
     Control
 }
 
-pub struct PacketHeader {
+pub(crate) struct PacketHeader {
     /// Defines whether a packet is a Data packet or a Control packet.
     pub packet_type: PacketType,
     pub timestamp: Instant,
@@ -27,7 +27,7 @@ impl Default for PacketHeader {
     }
 }
 
-pub struct HandshakePacket {
+pub(crate) struct HandshakePacket {
     /// Header of the packet
     pub header: PacketHeader,
     /// Handshake version number. Currently used values are 4 and 5.
@@ -43,7 +43,10 @@ impl HandshakePacket {
     }
 }
 
-pub fn to_packet(buffer: &[u8]) -> io::Result<SrtPacket> {
+/// Converts an array of bytes received into an SrtPacket.
+/// 
+/// Returns an error if the given byte array doesn't correspond to a valid SRT packet. 
+pub(crate) fn to_packet(buffer: &[u8]) -> io::Result<SrtPacket> {
     if buffer.len() < 16 {
         return Err(Error::new(ErrorKind::InvalidData, "Packet size too small"));
     }
