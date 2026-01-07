@@ -1,6 +1,6 @@
 use std::{io::{self, Error, Read, Write}, net::{SocketAddr, ToSocketAddrs, UdpSocket}};
 
-use crate::protocol::{HandshakePacket, SrtPacket, to_packet};
+use crate::protocol::{handshake::HandshakePacket, SrtPacket, to_packet};
 
 mod protocol;
 
@@ -59,7 +59,7 @@ impl SrtListener {
         let SrtPacket::Handshake(handshake_recv) = packet else {
             todo!()
         };
-
+        println!("{:?}", handshake_recv);
 
         todo!()
     }
